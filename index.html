@@ -12,8 +12,12 @@
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#date-start" ).datepicker();
-    $( "#date-end" ).datepicker();
+    $( "#date-start" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+    $( "#date-end" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
   } );
   </script>
 </head>
