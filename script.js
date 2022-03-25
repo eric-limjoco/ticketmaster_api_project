@@ -13,7 +13,24 @@ let nextLink = ''
 const populateEvents = (events) => {
   events.forEach(e => {
     let eventItem = document.createElement('li')
-    eventItem.innerText = `${e.name} - ${e.dates.start.localDate} - ${e.url}`
+
+    let eventTitle = document.createElement('h3')
+    eventTitle.innerText = e.name
+    let eventDate = document.createElement('div')
+    let d = new Date(e.dates.start.localDate)
+    eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    let detailLink = document.createElement('a')
+    detailLink.innerText = 'More information'
+    detailLink.href = './details.html'
+    detailLink.addEventListener('click', () => {
+      window.localStorage.clear()
+      window.localStorage.setItem('currentEvent', e.id)
+    })
+
+    eventItem.appendChild(eventTitle)
+    eventItem.appendChild(eventDate)
+    eventItem.appendChild(detailLink)
+
     resultsList.appendChild(eventItem)
   })
 }
@@ -61,6 +78,7 @@ loadMoreButton.addEventListener('click', async () => {
   populateEvents(events)
 })
 
+window.localStorage.clear()
 
 // TO DO
 // Show number of results

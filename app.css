@@ -1,3 +1,7 @@
 .hidden {
   display: none;
 }
+
+ul.results-list {
+  list-style: none;
+}
