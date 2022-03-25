@@ -17,8 +17,8 @@ const populateEvents = (events) => {
     const eventLocation = document.createElement('div')
     eventLocation.innerText = `${e._embedded.venues[0].city.name}, ${e._embedded.venues[0].state.stateCode}`
     const eventDate = document.createElement('div')
-    const d = new Date(e.dates.start.localDate)
-    eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    const d = new Date(e.dates.start.dateTime)
+    eventDate.innerText = d.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })
     const detailLink = document.createElement('a')
     detailLink.innerText = 'More information'
     detailLink.href = './details.html'

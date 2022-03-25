@@ -13,8 +13,8 @@ const loadEvent = async () => {
   const eventLocation = document.createElement('div')
   eventLocation.innerText = `${res.data._embedded.venues[0].city.name}, ${res.data._embedded.venues[0].state.stateCode}`
   const eventDate = document.createElement('div')
-  const d = new Date(res.data.dates.start.localDate)
-  eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  const d = new Date(res.data.dates.start.dateTime)
+  eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })
   const link = document.createElement('a')
   link.innerText = 'Buy tickets'
   link.href = res.data.url
