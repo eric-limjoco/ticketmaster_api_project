@@ -6,7 +6,6 @@ const startDatePicker = document.querySelector('input#date-start')
 const endDatePicker = document.querySelector('input#date-end')
 const resultsSection = document.querySelector('.results')
 const resultsList = document.querySelector('.results-list')
-
 const loadMoreButton = document.querySelector('button#load-more')
 
 let nextLink = ''
@@ -37,9 +36,15 @@ button.addEventListener('click', async () => {
   let response = await axios.get(url)
   console.log(response)
   let events = response.data['_embedded'].events
-  nextLink = response.data['_links'].next.href
   resultsList.innerHTML = ''
   populateEvents(events)
+
+  try {
+    nextLink = response.data['_links'].next.href
+    loadMoreButton.classList.remove('hidden')
+  } catch {
+    loadMoreButton.classList.add('hidden')
+  }
 })
 
 loadMoreButton.addEventListener('click', async () => {
@@ -47,18 +52,21 @@ loadMoreButton.addEventListener('click', async () => {
   let response = await axios.get(url)
   console.log(response)
   let events = response.data['_embedded'].events
-  nextLink = response.data['_links'].next.href
+  try {
+    nextLink = response.data['_links'].next.href
+    loadMoreButton.classList.remove('hidden')
+  } catch {
+    loadMoreButton.classList.add('hidden')
+  }
   populateEvents(events)
 })
 
 
 // TO DO
-// Hide Load More button if no current results or if no results
 // Show number of results
-// Handle 0 results case
+// Handle 0 results case (?)
 // Add event type filter
 // Optional filters
 // Filter validation (future date, end date after start date)
-// Add city dropdown (?)
 // Event detail page
 // Add styles
