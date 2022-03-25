@@ -7,19 +7,17 @@ const endDatePicker = document.querySelector('input#date-end')
 const resultsSection = document.querySelector('.results')
 const resultsList = document.querySelector('.results-list')
 const loadMoreButton = document.querySelector('button#load-more')
-
 let nextLink = ''
 
 const populateEvents = (events) => {
   events.forEach(e => {
-    let eventItem = document.createElement('li')
-
-    let eventTitle = document.createElement('h3')
+    const eventItem = document.createElement('li')
+    const eventTitle = document.createElement('h3')
     eventTitle.innerText = e.name
-    let eventDate = document.createElement('div')
-    let d = new Date(e.dates.start.localDate)
+    const eventDate = document.createElement('div')
+    const d = new Date(e.dates.start.localDate)
     eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
-    let detailLink = document.createElement('a')
+    const detailLink = document.createElement('a')
     detailLink.innerText = 'More information'
     detailLink.href = './details.html'
     detailLink.setAttribute('target', '_blank')
@@ -37,23 +35,23 @@ const populateEvents = (events) => {
 }
 
 const getLocation = async (zipCode) => {
-  let url = `https://api.zippopotam.us/us/${zipCode}`
-  let res = await axios.get(url)
-  let lat = res.data.places[0].latitude
-  let long = res.data.places[0].longitude
+  const url = `https://api.zippopotam.us/us/${zipCode}`
+  const res = await axios.get(url)
+  const lat = res.data.places[0].latitude
+  const long = res.data.places[0].longitude
   return { lat, long }
 }
 
 
 button.addEventListener('click', async () => {
-  let zipCode = zipCodeInput.value
-  let location = await getLocation(zipCode);
-  let startDate = startDatePicker.value
-  let endDate = endDatePicker.value
-  let url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
-  let response = await axios.get(url)
+  const zipCode = zipCodeInput.value
+  const location = await getLocation(zipCode);
+  const startDate = startDatePicker.value
+  const endDate = endDatePicker.value
+  const url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
+  const response = await axios.get(url)
   console.log(response)
-  let events = response.data['_embedded'].events
+  const events = response.data['_embedded'].events
   resultsList.innerHTML = ''
   populateEvents(events)
 
@@ -66,10 +64,10 @@ button.addEventListener('click', async () => {
 })
 
 loadMoreButton.addEventListener('click', async () => {
-  let url = `https://app.ticketmaster.com${nextLink}&apikey=${apiKey}`
-  let response = await axios.get(url)
+  const url = `https://app.ticketmaster.com${nextLink}&apikey=${apiKey}`
+  const response = await axios.get(url)
   console.log(response)
-  let events = response.data['_embedded'].events
+  const events = response.data['_embedded'].events
   try {
     nextLink = response.data['_links'].next.href
     loadMoreButton.classList.remove('hidden')
@@ -87,5 +85,4 @@ window.localStorage.clear()
 // Add event type filter
 // Optional filters
 // Filter validation (future date, end date after start date)
-// Event detail page
 // Add styles
