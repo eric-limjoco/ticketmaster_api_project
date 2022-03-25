@@ -10,17 +10,26 @@ const populateEvents = (events) => {
   resultsList.innerHTML = ''
   events.forEach(e => {
     let eventItem = document.createElement('li')
-    eventItem.innerText = `${e.name} - ${e.dates.start.localDate}`
+    eventItem.innerText = `${e.name} - ${e.dates.start.localDate} - ${e.url}`
     resultsList.appendChild(eventItem)
   })
+}
+
+const getLocation = async (zipCode) => {
+  let url = `https://api.zippopotam.us/us/${zipCode}`
+  let res = await axios.get(url)
+  let lat = res.data.places[0].latitude
+  let long = res.data.places[0].longitude
+  return { lat, long }
 }
 
 
 button.addEventListener('click', async () => {
   let zipCode = zipCodeInput.value
+  let location = await getLocation(zipCode);
   let startDate = startDatePicker.value
   let endDate = endDatePicker.value
-  let url = `${baseUrl}&postalCode=${zipCode}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=100&unit=miles`
+  let url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
   let response = await axios.get(url)
   console.log(response)
   let events = response.data['_embedded'].events

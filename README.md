@@ -2,4 +2,6 @@
 
 Project for GA JavaScript Course (Unit 2)
 
-This app will use the Ticketmaster API to show the user events based on their preferences.
+This app uses the Ticketmaster API to show the user events based on their preferences.
+
+The Zippopotam API is also used to convert the user's ZipCode into latitude and longitude.
