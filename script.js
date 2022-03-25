@@ -1,13 +1,17 @@
 const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?apikey=Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg'
-const button = document.querySelector('button')
+const apiKey = 'Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg'
+const button = document.querySelector('button#search')
 const zipCodeInput = document.querySelector('input#zip-code')
 const startDatePicker = document.querySelector('input#date-start')
 const endDatePicker = document.querySelector('input#date-end')
 const resultsSection = document.querySelector('.results')
 const resultsList = document.querySelector('.results-list')
 
+const loadMoreButton = document.querySelector('button#load-more')
+
+let nextLink = ''
+
 const populateEvents = (events) => {
-  resultsList.innerHTML = ''
   events.forEach(e => {
     let eventItem = document.createElement('li')
     eventItem.innerText = `${e.name} - ${e.dates.start.localDate} - ${e.url}`
@@ -33,12 +37,23 @@ button.addEventListener('click', async () => {
   let response = await axios.get(url)
   console.log(response)
   let events = response.data['_embedded'].events
+  nextLink = response.data['_links'].next.href
+  resultsList.innerHTML = ''
+  populateEvents(events)
+})
+
+loadMoreButton.addEventListener('click', async () => {
+  let url = `https://app.ticketmaster.com${nextLink}&apikey=${apiKey}`
+  let response = await axios.get(url)
+  console.log(response)
+  let events = response.data['_embedded'].events
+  nextLink = response.data['_links'].next.href
   populateEvents(events)
 })
 
 
 // TO DO
-// Add ability to load more events
+// Hide Load More button if no current results or if no results
 // Show number of results
 // Handle 0 results case
 // Add event type filter
