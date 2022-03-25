@@ -14,6 +14,8 @@ const populateEvents = (events) => {
     const eventItem = document.createElement('li')
     const eventTitle = document.createElement('h3')
     eventTitle.innerText = e.name
+    const eventLocation = document.createElement('div')
+    eventLocation.innerText = `${e._embedded.venues[0].city.name}, ${e._embedded.venues[0].state.stateCode}`
     const eventDate = document.createElement('div')
     const d = new Date(e.dates.start.localDate)
     eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
@@ -27,6 +29,7 @@ const populateEvents = (events) => {
     })
 
     eventItem.appendChild(eventTitle)
+    eventItem.appendChild(eventLocation)
     eventItem.appendChild(eventDate)
     eventItem.appendChild(detailLink)
 
@@ -51,12 +54,12 @@ button.addEventListener('click', async () => {
   const url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
   const response = await axios.get(url)
   console.log(response)
-  const events = response.data['_embedded'].events
+  const events = response.data._embedded.events
   resultsList.innerHTML = ''
   populateEvents(events)
 
   try {
-    nextLink = response.data['_links'].next.href
+    nextLink = response.data._links.next.href
     loadMoreButton.classList.remove('hidden')
   } catch {
     loadMoreButton.classList.add('hidden')
@@ -67,9 +70,9 @@ loadMoreButton.addEventListener('click', async () => {
   const url = `https://app.ticketmaster.com${nextLink}&apikey=${apiKey}`
   const response = await axios.get(url)
   console.log(response)
-  const events = response.data['_embedded'].events
+  const events = response.data._embedded.events
   try {
-    nextLink = response.data['_links'].next.href
+    nextLink = response.data._links.next.href
     loadMoreButton.classList.remove('hidden')
   } catch {
     loadMoreButton.classList.add('hidden')

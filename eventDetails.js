@@ -10,6 +10,8 @@ const loadEvent = async () => {
   eventImage.src = res.data.images[0].url
   const eventTitle = document.createElement('h3')
   eventTitle.innerText = res.data.name
+  const eventLocation = document.createElement('div')
+  eventLocation.innerText = `${res.data._embedded.venues[0].city.name}, ${res.data._embedded.venues[0].state.stateCode}`
   const eventDate = document.createElement('div')
   const d = new Date(res.data.dates.start.localDate)
   eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
@@ -20,6 +22,7 @@ const loadEvent = async () => {
 
   eventDetails.appendChild(eventImage)
   eventDetails.appendChild(eventTitle)
+  eventDetails.appendChild(eventLocation)
   eventDetails.appendChild(eventDate)
   eventDetails.appendChild(link)
 }
