@@ -22,6 +22,7 @@ const populateEvents = (events) => {
     let detailLink = document.createElement('a')
     detailLink.innerText = 'More information'
     detailLink.href = './details.html'
+    detailLink.setAttribute('target', '_blank')
     detailLink.addEventListener('click', () => {
       window.localStorage.clear()
       window.localStorage.setItem('currentEvent', e.id)
