@@ -9,6 +9,23 @@ const resultsList = document.querySelector('.results-list')
 const loadMoreButton = document.querySelector('button#load-more')
 let nextLink = ''
 
+const clearEvents = () => {
+  resultsList.innerHTML = ''
+  window.localStorage.removeItem('events')
+}
+
+const storeEvents = (events) => {
+  let existingEvents = JSON.parse(window.localStorage.getItem('events'))
+  if (!existingEvents) {
+    console.log('storing events1', JSON.stringify(events))
+    window.localStorage.setItem('events', JSON.stringify(events))
+  } else {
+    existingEvents.push(...events)
+    console.log('storing events2', JSON.stringify(existingEvents))
+    window.localStorage.setItem('events', JSON.stringify(existingEvents))
+  }
+}
+
 const populateEvents = (events) => {
   events.forEach(e => {
     const eventItem = document.createElement('li')
@@ -22,9 +39,7 @@ const populateEvents = (events) => {
     const detailLink = document.createElement('a')
     detailLink.innerText = 'More information'
     detailLink.href = './details.html'
-    detailLink.setAttribute('target', '_blank')
     detailLink.addEventListener('click', () => {
-      window.localStorage.clear()
       window.localStorage.setItem('currentEvent', e.id)
     })
 
@@ -55,7 +70,8 @@ button.addEventListener('click', async () => {
   const response = await axios.get(url)
   console.log(response)
   const events = response.data._embedded.events
-  resultsList.innerHTML = ''
+  clearEvents()
+  storeEvents(events)
   populateEvents(events)
 
   try {
@@ -77,15 +93,21 @@ loadMoreButton.addEventListener('click', async () => {
   } catch {
     loadMoreButton.classList.add('hidden')
   }
+  storeEvents(events)
   populateEvents(events)
 })
 
-window.localStorage.clear()
+const loadEvents = () => {
+  let existingEvents = JSON.parse(window.localStorage.getItem('events') || "[]")
+  console.log('existingEvents', typeof existingEvents)
+  console.log(existingEvents)
+  if (existingEvents) populateEvents(existingEvents)
+}
+
+loadEvents()
 
 // TO DO
-// Show number of results
-// Handle 0 results case (?)
-// Add event type filter
+// Show number of results / 0 results case
 // Optional filters
 // Filter validation (future date, end date after start date)
 // Add styles
