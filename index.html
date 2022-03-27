@@ -23,16 +23,27 @@
   </script>
 </head>
 <body>
-  <section>
+  <header>
     <h1>Event Explorer - Powered By Ticketmaster</h1>
-    <p>Zip Code: <input type="text" id="zip-code"></p>
-    <p>Start Date: <input type="text" id="date-start"></p>
-    <p>End Date: <input type="text" id="date-end"></p>
+  </header>
+  <section class="search">
+    <div class="filter zip-code">
+      <label for="zip-code">Zip Code</label>
+      <input type="text" id="zip-code">
+    </div>
+    <div class="filter date-start">
+      <label for="date-start">Start Date</label>
+      <input type="text" id="date-start">
+    </div>
+    <div class="filter date-start">
+      <label for="date-end">End Date</label>
+      <input type="text" id="date-end">
+    </div>
     <button id="search">Search</button>
     <button id="clear">Clear Search Results</button>
   </section>
   <section class="results">
-    <p id="message"></p>
+    <div id="message"></div>
     <ul class="results-list"></ul>
     <button id="load-more" class="hidden">Load More</button>
   </section>
