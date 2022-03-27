@@ -4,6 +4,7 @@ const apiKey = 'Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg'
 const zipCodeInput = document.querySelector('input#zip-code')
 const startDatePicker = document.querySelector('input#date-start')
 const endDatePicker = document.querySelector('input#date-end')
+const messageSection = document.querySelector('p#message')
 
 const searchButton = document.querySelector('button#search')
 const clearButton = document.querySelector('button#clear')
@@ -68,6 +69,7 @@ const clearEvents = () => {
   resultsList.innerHTML = ''
   window.localStorage.removeItem('events')
   loadMoreButton.classList.add('hidden')
+  messageSection.innerText = ''
 }
 
 // New search event
@@ -97,11 +99,16 @@ searchButton.addEventListener('click', async () => {
   }
 
   const response = await axios.get(url)
-  const events = response.data._embedded.events
-
   clearEvents()
-  storeEvents(events)
-  populateEvents(events)
+
+  if (response.data.page.totalElements > 0) {
+    messageSection.innerText = `${response.data.page.totalElements} results found`
+    const events = response.data._embedded.events
+    storeEvents(events)
+    populateEvents(events)
+  } else {
+    messageSection.innerText = 'No results found'
+  }
 
   try {
     nextLink = response.data._links.next.href
@@ -132,7 +139,3 @@ clearButton.addEventListener('click', () => {
 })
 
 loadEvents()
-
-// TO DO
-// Show number of results / 0 results case
-// Add styles
