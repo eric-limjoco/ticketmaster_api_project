@@ -17,11 +17,9 @@ const clearEvents = () => {
 const storeEvents = (events) => {
   let existingEvents = JSON.parse(window.localStorage.getItem('events'))
   if (!existingEvents) {
-    console.log('storing events1', JSON.stringify(events))
     window.localStorage.setItem('events', JSON.stringify(events))
   } else {
     existingEvents.push(...events)
-    console.log('storing events2', JSON.stringify(existingEvents))
     window.localStorage.setItem('events', JSON.stringify(existingEvents))
   }
 }
@@ -68,7 +66,6 @@ button.addEventListener('click', async () => {
   const endDate = endDatePicker.value
   const url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
   const response = await axios.get(url)
-  console.log(response)
   const events = response.data._embedded.events
   clearEvents()
   storeEvents(events)
@@ -85,7 +82,6 @@ button.addEventListener('click', async () => {
 loadMoreButton.addEventListener('click', async () => {
   const url = `https://app.ticketmaster.com${nextLink}&apikey=${apiKey}`
   const response = await axios.get(url)
-  console.log(response)
   const events = response.data._embedded.events
   try {
     nextLink = response.data._links.next.href
@@ -99,8 +95,6 @@ loadMoreButton.addEventListener('click', async () => {
 
 const loadEvents = () => {
   let existingEvents = JSON.parse(window.localStorage.getItem('events') || "[]")
-  console.log('existingEvents', typeof existingEvents)
-  console.log(existingEvents)
   if (existingEvents) populateEvents(existingEvents)
 }
 
