@@ -71,12 +71,19 @@ const clearEvents = () => {
 
 // New search event
 searchButton.addEventListener('click', async () => {
+  let url = `${baseUrl}&source=ticketmaster&countryCode=US&sort=date,asc&radius=50&unit=miles`
+
   const zipCode = zipCodeInput.value
-  const location = await getLocationFromZip(zipCode);
+  if (zipCode.length > 0) {
+    const location = await getLocationFromZip(zipCode);
+    url += `&latlong=${location.lat},${location.long}`
+  }
+  
   const startDate = startDatePicker.value
   const endDate = endDatePicker.value
-
-  const url = `${baseUrl}&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59&sort=date,asc&radius=50&unit=miles&latlong=${location.lat},${location.long}&source=ticketmaster`
+  if (startDate.length > 0 && endDate.length > 0) {
+    url += `&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59`
+  }
 
   const response = await axios.get(url)
   const events = response.data._embedded.events
@@ -117,6 +124,5 @@ loadEvents()
 
 // TO DO
 // Show number of results / 0 results case
-// Optional filters
 // Filter validation (future date, end date after start date)
 // Add styles
