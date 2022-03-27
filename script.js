@@ -67,6 +67,7 @@ const storeEvents = (events) => {
 const clearEvents = () => {
   resultsList.innerHTML = ''
   window.localStorage.removeItem('events')
+  loadMoreButton.classList.add('hidden')
 }
 
 // New search event
@@ -82,7 +83,17 @@ searchButton.addEventListener('click', async () => {
   const startDate = startDatePicker.value
   const endDate = endDatePicker.value
   if (startDate.length > 0 && endDate.length > 0) {
+    if (new Date(startDate) > new Date(endDate)) {
+      alert('Start Date must be before End Date')
+      return
+    }
     url += `&localStartEndDateTime=${startDate}T00:00:00,${endDate}T23:59:59`
+  } else if (startDate.length > 0) {
+    alert('Please enter an End Date or remove your Start Date.')
+    return
+  } else if (endDate.length > 0) {
+    alert('Please enter a Start Date or remove your End Date.')
+    return
   }
 
   const response = await axios.get(url)
@@ -124,5 +135,4 @@ loadEvents()
 
 // TO DO
 // Show number of results / 0 results case
-// Filter validation (future date, end date after start date)
 // Add styles
