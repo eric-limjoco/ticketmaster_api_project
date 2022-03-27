@@ -1,30 +1,29 @@
+const currentEventId = window.localStorage.getItem('currentEvent')
+const url =  `https://app.ticketmaster.com/discovery/v2/events/${currentEventId}.json?apikey=Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg`
 const eventDetails = document.querySelector('div.event-details')
 
 const loadEvent = async () => {
-  const currentEventId = window.localStorage.getItem('currentEvent')
-  const url =  `https://app.ticketmaster.com/discovery/v2/events/${currentEventId}.json?apikey=Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg`
   const res = await axios.get(url)
-  console.log(res)
 
   const eventImage = document.createElement('img')
-  eventImage.src = res.data.images[0].url
   const eventTitle = document.createElement('h3')
-  eventTitle.innerText = res.data.name
   const eventLocation = document.createElement('div')
-  eventLocation.innerText = `${res.data._embedded.venues[0].city.name}, ${res.data._embedded.venues[0].state.stateCode}`
   const eventDate = document.createElement('div')
-  const d = new Date(res.data.dates.start.dateTime)
-  eventDate.innerText = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })
-  const link = document.createElement('a')
-  link.innerText = 'Buy tickets'
-  link.href = res.data.url
-  link.setAttribute('target', '_blank')
+  const eventLink = document.createElement('a')
+
+  eventImage.src = res.data.images[0].url
+  eventTitle.innerText = res.data.name
+  eventLocation.innerText = `${res.data._embedded.venues[0].city.name}, ${res.data._embedded.venues[0].state.stateCode}`
+  eventDate.innerText = (new Date(res.data.dates.start.dateTime)).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+  eventLink.innerText = 'Buy tickets'
+  eventLink.href = res.data.url
+  eventLink.setAttribute('target', '_blank')
 
   eventDetails.appendChild(eventImage)
   eventDetails.appendChild(eventTitle)
   eventDetails.appendChild(eventLocation)
   eventDetails.appendChild(eventDate)
-  eventDetails.appendChild(link)
+  eventDetails.appendChild(eventLink)
 }
 
 loadEvent()
