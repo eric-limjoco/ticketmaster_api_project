@@ -14,10 +14,20 @@ body {
   height: 100%;
 }
 
-#app {
+.app {
   min-height: 100%;
   width: 100%;
   display: flex;
+}
+
+.app-details {
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 1024px) {
+  .app-search {
+    flex-direction: column;
+  }
 }
 
 .search {
@@ -28,11 +38,11 @@ body {
 }
 
 .results {
-  padding: 2rem 0 0 1.6rem;
+  padding: 2rem 1rem 0 1.6rem;
 }
 
 h1 {
-  color: #242424;
+  color: #fff;
   font-size: 3.6rem;
   margin: 0;
 }
@@ -56,19 +66,22 @@ label {
   width: 8rem;
 }
 
+input {
+  padding-left: 0.4rem;
+}
+
 button {
-  background-color: #636463;
-  border: 1px solid #636463;
+  background-color: #242424;
+  border: 1px solid #242424;
   border-radius: 6px;
   color: #fff;
-  font-size: 0.9rem;
   padding: 0.6rem 1.8rem;
   margin-bottom: 2rem;
 }
 
 button:hover {
   background-color: #fff;
-  color: #636463;
+  color: #242424;
   cursor: pointer;
 }
 
@@ -86,4 +99,32 @@ li {
 
 .hidden {
   display: none;
+}
+
+.app-details header {
+  background-color: #155e7d;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.app-details header h1 {
+  font-size: 1.2rem;
+}
+
+.event-details {
+  width: 100%;
+}
+
+.event-details img {
+  display: block;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.event-details h3,
+.event-details div,
+.event-details a {
+  margin-left: 2rem;
 }
