@@ -1,7 +1,89 @@
-.hidden {
-  display: none;
+html {
+  height: 100%;
+}
+
+body,
+button,
+input {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
+#app {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.search {
+  background-color: #155e7d;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 4rem;
+}
+
+.results {
+  padding: 2rem 0 0 1.6rem;
+}
+
+h1 {
+  color: #242424;
+  font-size: 3.6rem;
+  margin: 0;
+}
+
+h3 {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  margin: 0 0 4rem;
+}
+
+.filter {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+label {
+  width: 8rem;
+}
+
+button {
+  background-color: #636463;
+  border: 1px solid #636463;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.8rem;
+  margin-bottom: 2rem;
+}
+
+button:hover {
+  background-color: #fff;
+  color: #636463;
+  cursor: pointer;
+}
+
+#load-more {
+  font-size: 1.6rem;
 }
 
 ul.results-list {
   list-style: none;
+}
+
+li {
+  margin-bottom: 2rem;
+}
+
+.hidden {
+  display: none;
 }

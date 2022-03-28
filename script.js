@@ -4,7 +4,7 @@ const apiKey = 'Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg'
 const zipCodeInput = document.querySelector('input#zip-code')
 const startDatePicker = document.querySelector('input#date-start')
 const endDatePicker = document.querySelector('input#date-end')
-const messageSection = document.querySelector('p#message')
+const messageSection = document.querySelector('#message')
 
 const searchButton = document.querySelector('button#search')
 const clearButton = document.querySelector('button#clear')
@@ -102,7 +102,7 @@ searchButton.addEventListener('click', async () => {
   clearEvents()
 
   if (response.data.page.totalElements > 0) {
-    messageSection.innerText = `${response.data.page.totalElements} results found`
+    messageSection.innerText = `${response.data.page.totalElements} results found ${zipCode ? 'within 50 miles of ' + zipCode : ''} ${startDate.length ? 'between ' + startDate + ' and ' + endDate : ''}`
     const events = response.data._embedded.events
     storeEvents(events)
     populateEvents(events)

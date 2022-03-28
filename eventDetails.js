@@ -1,6 +1,6 @@
 const currentEventId = window.localStorage.getItem('currentEvent')
 const url =  `https://app.ticketmaster.com/discovery/v2/events/${currentEventId}.json?apikey=Z1cG4yVwExfaCPlK8UVUreeoVcZTNaSg`
-const eventDetails = document.querySelector('section.event-details')
+const eventDetails = document.querySelector('.event-details')
 
 const loadEvent = async () => {
   const res = await axios.get(url)
