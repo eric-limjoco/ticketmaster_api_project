@@ -129,6 +129,7 @@ li {
 
 .event-details img {
   display: block;
+  max-height: 400px;
   max-width: 80%;
   margin: 0 auto;
 }
